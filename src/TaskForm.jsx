@@ -11,13 +11,18 @@ export default function TaskForm() {
   const [tasks, setTasks] = useState([]);
 
   function removeTask(uuid) {
-    console.log(uuid);
     setTasks((prev) => prev.filter((item) => item.uuid !== uuid));
+  }
+
+  function editTask(uuid) {
+    console.log(uuid);
+    const task = tasks.find((item) => item.uuid === uuid);
+    console.log(task);
+    setFormData(task);
   }
 
   function handleFormSubmit(event) {
     event.preventDefault();
-    console.log(formData);
 
     if (formData.task.length > 3) {
       formData.uuid = uuidv4();
@@ -42,8 +47,6 @@ export default function TaskForm() {
 
   return (
     <>
-      <TaskList tasks={tasks} removeTask={removeTask} />
-
       <form onSubmit={handleFormSubmit}>
         <div className="row mb-3">
           <label htmlFor="task" className="col-sm-2 col-form-label">
@@ -56,6 +59,7 @@ export default function TaskForm() {
               id="task"
               name="task"
               onChange={handleInputChange}
+              value={formData.task}
             />
           </div>
         </div>
@@ -69,6 +73,7 @@ export default function TaskForm() {
                 id="priority"
                 name="priority"
                 onChange={handleInputChange}
+                checked={formData.priority}
               />
               <label className="form-check-label" htmlFor="priority">
                 Oncelikli
@@ -84,6 +89,7 @@ export default function TaskForm() {
           </div>
         </div>
       </form>
+      <TaskList tasks={tasks} removeTask={removeTask} editTask={editTask} />
     </>
   );
 }
