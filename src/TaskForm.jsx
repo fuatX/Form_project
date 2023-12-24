@@ -18,19 +18,26 @@ export default function TaskForm() {
     console.log(uuid);
     const task = tasks.find((item) => item.uuid === uuid);
     console.log(task);
-    setFormData(task);
+    setFormData({ ...task, isEdited: true });
   }
 
   function handleFormSubmit(event) {
     event.preventDefault();
+    if (formData.isEdited) {
+      const taskIndex = tasks.findIndex((item) => item.uuid === formData.uuid);
+      const newTasks = tasks.slice();
+      newTasks[taskIndex] = { ...formData };
+      setTasks(newTasks)
+    }
 
-    if (formData.task.length > 3) {
+    else if (formData.task.length > 3) {
       formData.uuid = uuidv4();
       setTasks((prev) => [formData, ...prev]); // form data en sona yada en başa
-      setFormData(emptyForm);
-      event.target.reset();
+
       // console.log(tasks);
     }
+    setFormData(emptyForm);
+    event.target.reset();
   }
 
   function handleInputChange(event) {
