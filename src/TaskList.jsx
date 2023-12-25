@@ -1,16 +1,47 @@
+import { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
 
 export default function TaskList({ tasks, removeTask, editTask }) {
+  const [priority, setPriority] = useState(false);
+  const [filteredTasks, setFilteredTasks] = useState(tasks);
+
+  function handlePriorityFilter() {
+    setPriority((prev) => !prev);
+    console.log("priority", priority);
+  }
+
+  /*useEffect(()=>{ // func caliscak...},[eger array bos ise ilk comp yüklenince anlamina gelir.])?*/
+
+  useEffect(() => {
+    setFilteredTasks(tasks);
+  }, [tasks]);
+
+  useEffect(() => {
+    priority
+      ? setFilteredTasks(tasks.filter((item) => item.priority === priority))
+      : setFilteredTasks(tasks);
+  }, [tasks, priority]);
+
   if (tasks.length === 0) {
     return <></>;
   }
   return (
     <>
       <div className="p-4 bg-light mb-5 border rounded">
-        <h3 className="h3">Gorevler</h3>
+        <h4 className="h4 mb-3">
+          Gorevler:
+          <span
+            onClick={handlePriorityFilter}
+            className={`btn btn-sm ${
+              !priority ? "btn-success" : "btn-secondary"
+            } float-end`}
+          >
+            {priority ? "Hepsini Göster" : "Onceliklileri Göster"}
+          </span>
+        </h4>
         <ul className="list-group">
-          {tasks.map((item) => (
+          {filteredTasks.map((item) => (
             <li className="list-group-item" key={item.uuid}>
               {item.priority && (
                 <span className="badge p-1 text-dark me-2 rounded-circle ">
