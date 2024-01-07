@@ -3,7 +3,7 @@ import { CiEdit } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
 import TaskListItem from "./TaskListitem";
 
-export default function TaskList({ tasks, removeTask, editTask }) {
+export default function TaskList({ tasks, removeTask, editTask, doneTask }) {
   const [priority, setPriority] = useState(false);
   const [filteredTasks, setFilteredTasks] = useState(tasks);
 
@@ -38,7 +38,7 @@ export default function TaskList({ tasks, removeTask, editTask }) {
           <button
             onClick={handlePriorityFilter}
             className={`btn btn-sm ${
-              !priority ? "btn-success" : "btn-secondary"
+              !priority ? "btn-warning" : "btn-secondary"
             } float-end`}
           >
             {priority ? "Hepsini Göster" : "Onceliklileri Göster"}
@@ -51,6 +51,7 @@ export default function TaskList({ tasks, removeTask, editTask }) {
               task={task}
               editTask={editTask}
               removeTask={removeTask}
+              doneTask={doneTask}
             />
           ))}
         </ul>

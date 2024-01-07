@@ -6,6 +6,7 @@ export default function TaskForm() {
   const emptyForm = {
     task: "",
     priority: false,
+    isDone: false,
   };
   const [formData, setFormData] = useState(emptyForm);
   const [tasks, setTasks] = useState([]);
@@ -19,6 +20,16 @@ export default function TaskForm() {
     const task = tasks.find((item) => item.uuid === uuid);
     // console.log(task);
     setFormData({ ...task, isEdited: true });
+  }
+
+  function doneTask(uuid) {
+    const taskIndex = tasks.findIndex((item) => item.uuid === uuid);
+    const task = tasks[taskIndex];
+    task.isDone = !task.isDone;
+    const newTasks = tasks.slice();
+    newTasks[taskIndex] = task;
+    setTasks(newTasks);
+    console.log(newTasks);
   }
 
   function handleFormSubmit(event) {
@@ -94,7 +105,12 @@ export default function TaskForm() {
           </div>
         </div>
       </form>
-      <TaskList tasks={tasks} removeTask={removeTask} editTask={editTask} />
+      <TaskList
+        tasks={tasks}
+        removeTask={removeTask}
+        editTask={editTask}
+        doneTask={doneTask}
+      />
     </>
   );
 }
