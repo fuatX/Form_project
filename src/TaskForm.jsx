@@ -15,9 +15,9 @@ export default function TaskForm() {
   }
 
   function editTask(uuid) {
-    console.log(uuid);
+    // console.log(uuid);
     const task = tasks.find((item) => item.uuid === uuid);
-    console.log(task);
+    // console.log(task);
     setFormData({ ...task, isEdited: true });
   }
 
@@ -27,10 +27,8 @@ export default function TaskForm() {
       const taskIndex = tasks.findIndex((item) => item.uuid === formData.uuid);
       const newTasks = tasks.slice();
       newTasks[taskIndex] = { ...formData };
-      setTasks(newTasks)
-    }
-
-    else if (formData.task.length > 3) {
+      setTasks(newTasks);
+    } else if (formData.task.length > 3) {
       formData.uuid = uuidv4();
       setTasks((prev) => [formData, ...prev]); // form data en sona yada en başa
 
